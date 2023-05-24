@@ -90,20 +90,30 @@ const response = await fetch(`${CORSBYPASS}${API}${ENDPOINTS[8]}${input}${TOKEN}
 
 
 function fieldifier(data)
-{
+{ var count = {}
   for(i = 0; i < data.data.length; i++)
   {
   for(key in data.data[i])
-{
+{ 
   if((key !== "synonyms")&&(key !== "id")&&(key !== "links"))
   {
-  btn = document.createElement("button")
-  btn.innerText = key
-  btn.value = data.data[i][key]
-  console.log(key, data.data[i][key])
-  document.getElementById("view").appendChild(btn)
+    if(count[key] != null)
+    {
+      count[key]++
+
+    }
+    else
+    {
+      count[key] = 1
+      btn = document.createElement("button")
+      btn.innerText = key
+      btn.id = key
+      document.getElementById("view").appendChild(btn)
+    }
+    
   }
 }
 }
+console.log(count)
 }
 
