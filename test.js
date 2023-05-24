@@ -85,6 +85,7 @@ const response = await fetch(`${CORSBYPASS}${API}${ENDPOINTS[8]}${input}${TOKEN}
   console.log(data);
   paginator(data)
   fieldifier(data)
+  displayer(data)
 
 };
 
@@ -115,5 +116,27 @@ function fieldifier(data)
 }
 }
 console.log(count)
+}
+
+function displayer(data)
+{ 
+  for(i = 0; i < data.data.length; i++)
+  { card = document.createElement("div")
+  for(key in data.data[i])
+{ 
+  if((key !== "synonyms")&&(key !== "id")&&(key !== "links"))
+  {
+      text = document.createElement("p")
+      text.innerText = data.data[i][key]
+      text.id = [key]
+      card.appendChild(text)
+      
+    }
+    
+    
+  }
+  document.getElementById("view").appendChild(card)
+
+}
 }
 
