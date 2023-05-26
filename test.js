@@ -142,7 +142,7 @@ const response = await fetch(`${input}`);
 
 };
 
-
+///api/v1/distributions?page=1
 function dns(input, DIST)
 {
   console.log(input)
@@ -151,14 +151,29 @@ function dns(input, DIST)
   { 
   if((DIST.data[i].name.toUpperCase() === input.toUpperCase()))
   { 
-    console.log(DIST.data[i].tdwg_code)
+    
+
+    console.log(DIST.data[i].tdwg_code,input.toUpperCase,DIST.data[i].name.toUpperCase)
     return DIST.data[i].tdwg_code
+  }
+  else
+  {
+    console.log(DIST.links.next)
+    return console.log(start(input,DIST.links.next ))
   }
   }
 }
-async function start(input)
+async function start(input, bypass)
 {
-  var response = await fetch(`${CORSBYPASS}${API}distributions?${TOKEN}`);
+  console.log(input, bypass)
+  if(bypass != undefined)
+  {
+    var response = await fetch(`${CORSBYPASS}${BASE}${bypass}&${TOKEN}`)
+  }
+  else
+  {
+    var response = await fetch(`${CORSBYPASS}${API}distributions?${TOKEN}`);
+  }
   if(response.status != 200)
   console.log(response)
   var data = await response.json();
