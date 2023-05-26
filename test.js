@@ -263,9 +263,15 @@ function displayer(data)
     {
       image = document.createElement("img")
       image.src = data.data[i][key]
-      image.id = [key]
+      image.id = data.data[i]["links"]["self"]
       image.style.height = "450px"
       image.style.width = "auto"
+      image.addEventListener("click", function(e)
+      {
+        grabber(`${CORSBYPASS}${BASE}${e.target.id}?${TOKEN}`)
+
+      })
+
       pic.appendChild(image)
       
     }
@@ -277,7 +283,6 @@ function displayer(data)
       text.style.fontFamily = "cursive"
       card.appendChild(text)
     }
-    
     
   }
   document.getElementById("view").appendChild(card)
