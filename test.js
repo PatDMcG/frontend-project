@@ -143,7 +143,7 @@ const response = await fetch(`${input}`);
 };
 
 ///api/v1/distributions?page=1
-function dns(input, DIST)
+async function dns(input, DIST)
 {
   console.log(input)
   console.log(DIST)
@@ -156,13 +156,19 @@ function dns(input, DIST)
     console.log(DIST.data[i].tdwg_code,input.toUpperCase,DIST.data[i].name.toUpperCase)
     return DIST.data[i].tdwg_code
   }
-  else
+}
+  if(DIST.links.next != undefined)
   {
     console.log(DIST.links.next)
-    return console.log(start(input,DIST.links.next ))
+    var input = await start(input, DIST.links.next)
+    console.log(input.json.data.links.next)
+     return await input.json.data.links.next
+  }
+  else{
+    grabber(`${CORSBYPASS}${API}${sittingAt}?${TOKEN}`)
   }
   }
-}
+
 async function start(input, bypass)
 {
   console.log(input, bypass)
@@ -178,12 +184,20 @@ async function start(input, bypass)
   console.log(response)
   var data = await response.json();
   console.log(data);
-  var test = dns(input, data)
+  var test = await dns(input, data)
+  console.log(`${CORSBYPASS}${API}${sittingAt}/${test}/species?${TOKEN}`)
   grabber(`${CORSBYPASS}${API}${sittingAt}/${test}/species?${TOKEN}`)
 }
 
 function fieldifier(data)
 { 
+  if(document.getElementById("navigation")== null)
+  {
+    reset = document.createElement("nav")
+    reset.hidden = "True"
+    reset.id = "navigation"
+    document.getElementById("main").appendChild(reset)
+  }
   undo(document.getElementById("navigation"))
   console.log("hello")
   var count = {}
@@ -208,7 +222,7 @@ function fieldifier(data)
     }
     
   }
-}
+}1
 }
 console.log(count)
 }
@@ -216,9 +230,13 @@ console.log(count)
 
 function undo(parent)
 {
-while(parent.firstChild)
+  console.log(parent)
+if(parent != null)
+{
+while(parent.lastChild)
 {
   parent.removeChild(parent.lastChild)
+}
 }
 }
 function displayer(data)
