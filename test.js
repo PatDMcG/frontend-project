@@ -241,6 +241,12 @@ while(parent.lastChild)
 }
 function displayer(data)
 { 
+  if(document.getElementById("view")== null)
+  {
+    reset = document.createElement("article")
+    reset.id = "view"
+    document.getElementById("main").appendChild(reset)
+  }
   undo(document.getElementById("view"))
   console.log("hello")
   for(i = 0; i < data.data.length; i++)
@@ -268,6 +274,7 @@ function displayer(data)
       image.style.width = "auto"
       image.addEventListener("click", function(e)
       {
+        console.log(`${BASE}${e.target.id}?${TOKEN}`)
         grabber(`${CORSBYPASS}${BASE}${e.target.id}?${TOKEN}`)
 
       })
